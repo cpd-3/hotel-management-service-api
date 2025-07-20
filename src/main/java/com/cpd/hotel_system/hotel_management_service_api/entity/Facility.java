@@ -12,4 +12,8 @@ public class Facility {
     @Column(length=100, nullable=false, name = "name")
     private String name;
 
+    @ManyToOne()
+    @JoinColumn(name="room_id")
+    private Room room;
+
 }
