@@ -40,4 +40,41 @@ public class HotelController {
                 HttpStatus.CREATED
         );
     }
+
+    @DeleteMapping("/host/delete/{id}")
+    public ResponseEntity<StandardResponseDto> delete(
+            @PathVariable("id") String hotelId) throws SQLException {
+        hotelService.delete(hotelId);
+        return new ResponseEntity<>(
+                new StandardResponseDto(
+                        204, "Hotel deleted!",null
+                ),
+                HttpStatus.NO_CONTENT
+        );
+    }
+
+    @GetMapping("/visitor/find-by-id/{id}")
+    public ResponseEntity<StandardResponseDto> findById(
+            @PathVariable("id") String hotelId) throws SQLException {
+        return new ResponseEntity<>(
+                new StandardResponseDto(
+                        200, "Hotel found!",hotelService.findById(hotelId)
+                ),
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/visitor/find-all")
+    public ResponseEntity<StandardResponseDto> findAll(
+            @RequestParam String searchText,
+            @RequestParam int page,
+            @RequestParam int size
+    ) throws SQLException {
+        return new ResponseEntity<>(
+                new StandardResponseDto(
+                        200, "Hotel list!",hotelService.findAll(page,size,searchText)
+                ),
+                HttpStatus.OK
+        );
+    }
 }
