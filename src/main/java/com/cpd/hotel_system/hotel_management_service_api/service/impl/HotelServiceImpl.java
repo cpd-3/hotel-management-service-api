@@ -6,9 +6,12 @@ import com.cpd.hotel_system.hotel_management_service_api.dto.response.paginate.H
 import com.cpd.hotel_system.hotel_management_service_api.entity.Hotel;
 import com.cpd.hotel_system.hotel_management_service_api.repo.HotelRepo;
 import com.cpd.hotel_system.hotel_management_service_api.service.HotelService;
+import com.cpd.hotel_system.hotel_management_service_api.util.ByteCodeHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -16,6 +19,7 @@ import java.util.UUID;
 public class HotelServiceImpl implements HotelService
 {
     private final HotelRepo hotelRepo;
+    private final ByteCodeHandler byteCodeHandler;
 
     @Override
     public void create(RequestHotelDto dto) {
@@ -44,13 +48,31 @@ public class HotelServiceImpl implements HotelService
 
     // map-structs, model-mappers
 
-    private Hotel toHotel(RequestHotelDto dto) {
+    private Hotel toHotel(RequestHotelDto dto) throws SQLException {
         return dto==null?null:
                 Hotel.builder()
                         .hotelName(dto.getHotelName())
                         .hotelId(UUID.randomUUID().toString())
                         .starRating(dto.getStarRating())
-                        .description(dto.getDescription())
+                        .description(byteCodeHandler.stringToBlob(dto.getDescription()))
+                        .createdAt(LocalDateTime.now())
+                        .updatedAt(LocalDateTime.now())
+                        .activeStatus(true)
+                        .startingFrom(dto.getStartingFrom())
+                        .build();
+    }
+
+    private ResponseHotelDto toResponseHotelDto(Hotel hotel) throws SQLException {
+        return hotel==null?null:
+                ResponseHotelDto.builder()
+                        .hotelId(hotel.getHotelId())
+                        .hotelName(hotel.getHotelName())
+                        .activeStatus(hotel.isActiveStatus())
+                        .startingFrom(hotel.getStartingFrom())
+                        .updatedAt(LocalDateTime.now())
+                        .createdAt(LocalDateTime.now())
+                        .description(hotel.getDescription())
+                        .branches()
                         .build();
     }
 
