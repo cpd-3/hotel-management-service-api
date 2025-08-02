@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/hotel-management/api/v1/hotels")
+@RequestMapping("/hotel-service/api/v1/hotels")
 public class HotelController {
     private final HotelService hotelService;
 
