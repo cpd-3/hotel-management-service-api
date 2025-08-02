@@ -52,8 +52,9 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public ResponseHotelDto findById(String hotelId) {
-        return null;
+    public ResponseHotelDto findById(String hotelId) throws SQLException {
+        Hotel selectedHotel = hotelRepo.findById(hotelId).orElseThrow(()->new EntryNotFoundException("Hotel not found!"));
+        return toResponseHotelDto(selectedHotel);
     }
 
     @Override
