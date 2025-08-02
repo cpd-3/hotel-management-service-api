@@ -4,5 +4,11 @@
     "hotelName":"Kandy Green view guest house",
     "starRating":3,
     "startingFrom":5000
+  },
+  {
+    "description":"Comfortable Accommodations: Kandy Green View Guest House.",
+    "hotelName":"Kandy Green view Hotel",
+    "starRating":5,
+    "startingFrom":75000
   }
 ]

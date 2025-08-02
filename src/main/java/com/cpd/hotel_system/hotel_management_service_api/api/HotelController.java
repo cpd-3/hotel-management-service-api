@@ -6,10 +6,9 @@ import com.cpd.hotel_system.hotel_management_service_api.util.StandardResponseDt
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLException;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +23,19 @@ public class HotelController {
         return new ResponseEntity<>(
                 new StandardResponseDto(
                     201, "Hotel Saved!",null
+                ),
+                HttpStatus.CREATED
+        );
+    }
+
+    @PutMapping("/admin/update/{id}")
+    public ResponseEntity<StandardResponseDto> update(
+            @PathVariable("id") String hotelId,
+            @RequestBody RequestHotelDto dto) throws SQLException {
+        hotelService.update(dto, hotelId);
+        return new ResponseEntity<>(
+                new StandardResponseDto(
+                        201, "Hotel Updated!",null
                 ),
                 HttpStatus.CREATED
         );
